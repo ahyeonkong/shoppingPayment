@@ -1,5 +1,6 @@
 package com.example.shoppingpayment.users.domain;
 
+import com.example.shoppingpayment.cart.domain.Cart;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -47,4 +48,11 @@ public class Users {
     @Column(name = "users_created_at", nullable = false, updatable = false)
     private LocalDateTime usersCreatedAt;
 
+    /*
+        User와 Cart 사이의 1:1 관계가 양방향으로 설정됨.
+        'mappedBy' 속성은 Cart 엔티티의 'users' 필드가 이 관계의 주인임을 나타냄.
+    */
+
+    @OneToOne(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Cart cart;
 }
