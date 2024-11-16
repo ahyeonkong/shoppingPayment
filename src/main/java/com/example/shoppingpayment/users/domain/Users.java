@@ -1,12 +1,15 @@
 package com.example.shoppingpayment.users.domain;
 
 import com.example.shoppingpayment.cart.domain.Cart;
+import com.example.shoppingpayment.payment.domain.Payment;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /*
     모든 필드의 이름을 camelCase로 변경. (예: users_id -> usersId).
@@ -55,4 +58,7 @@ public class Users {
 
     @OneToOne(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Cart cart;
+
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+    private List<Payment> payments = new ArrayList<>();
 }
