@@ -1,6 +1,7 @@
 package com.example.shoppingpayment.product.domain;
 
 import com.example.shoppingpayment.cartItem.domain.CartItem;
+import com.example.shoppingpayment.orderItem.domain.OrderItem;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,5 +35,6 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<CartItem> cartItems = new ArrayList<>();
 
-
+    @OneToMany(mappedBy = "product")
+    private List<OrderItem> orderItems = new ArrayList<>();
 }

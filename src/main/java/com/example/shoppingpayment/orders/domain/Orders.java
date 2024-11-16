@@ -1,5 +1,6 @@
 package com.example.shoppingpayment.orders.domain;
 
+import com.example.shoppingpayment.orderItem.domain.OrderItem;
 import com.example.shoppingpayment.users.domain.Users;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -8,6 +9,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -36,5 +39,8 @@ public class Orders {
     @UpdateTimestamp
     @Column(name = "orders_updated_at")
     private LocalDateTime orderUpdatedAt;
+
+    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItem> orderItems = new ArrayList<>();
 
 }
