@@ -1,10 +1,13 @@
 package com.example.shoppingpayment.product.domain;
 
+import com.example.shoppingpayment.cartItem.domain.CartItem;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -27,6 +30,9 @@ public class Product {
     LocalDate product_created_at;
     @Column
     LocalDate product_updated_at;
+
+    @OneToMany(mappedBy = "product")
+    private List<CartItem> cartItems = new ArrayList<>();
 
 
 }

@@ -1,9 +1,13 @@
 package com.example.shoppingpayment.cart.domain;
 
+import com.example.shoppingpayment.cartItem.domain.CartItem;
 import com.example.shoppingpayment.users.domain.Users;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -21,4 +25,7 @@ public class Cart {
 
     @Column(name = "cart_total_price", nullable = false)
     private Long cartTotalPrice;
+
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CartItem> cartItems = new ArrayList<>();
 }
