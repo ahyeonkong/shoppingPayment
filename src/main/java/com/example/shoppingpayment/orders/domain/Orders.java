@@ -1,6 +1,7 @@
 package com.example.shoppingpayment.orders.domain;
 
 import com.example.shoppingpayment.orderItem.domain.OrderItem;
+import com.example.shoppingpayment.payment.domain.Payment;
 import com.example.shoppingpayment.users.domain.Users;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -42,5 +43,8 @@ public class Orders {
 
     @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
+
+    @OneToOne(mappedBy = "orders", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Payment payment;
 
 }
