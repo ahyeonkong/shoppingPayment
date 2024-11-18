@@ -3,12 +3,11 @@ package com.example.shoppingpayment.product.domain;
 import com.example.shoppingpayment.cartItem.domain.CartItem;
 import com.example.shoppingpayment.orderItem.domain.OrderItem;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +15,9 @@ import java.util.List;
 @Getter
 @Entity
 @Table(name = "product")
+@Builder
+@NoArgsConstructor // JPA 엔티티에 필요
+@AllArgsConstructor // Builder 패턴에 필요
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,11 +41,11 @@ public class Product {
 
     @CreationTimestamp
     @Column(name = "product_created_at", nullable = false, updatable = false)
-    private LocalDateTime productCreatedAt;
+    private LocalDate productCreatedAt;
 
     @UpdateTimestamp
     @Column(name = "product_updated_at")
-    private LocalDateTime productUpdatedAt;
+    private LocalDate  productUpdatedAt;
 
     @OneToMany(mappedBy = "product")
     private List<CartItem> cartItems = new ArrayList<>();
