@@ -63,4 +63,17 @@ public class ProductController {
 
     }
 
+    // 상세 목록 조회
+    @GetMapping("/{productId}")
+    public ResponseEntity<GenericApiResponse<ProductResponse>> getProductById(@PathVariable Long productId) {
+        try {
+            ProductResponse product = productService.getOneProduct(productId);
+            GenericApiResponse<ProductResponse> response = new GenericApiResponse<>(true, 200, "상품을 성공적으로 조회했습니다.", product);
+            return ResponseEntity.ok(response);
+        } catch (EntityNotFoundException e) {
+            GenericApiResponse<ProductResponse> response = new GenericApiResponse<>(false, 404, "상품 목록이 없습니다.", null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+    }
+
 }
