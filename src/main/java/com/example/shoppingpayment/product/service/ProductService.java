@@ -2,11 +2,15 @@ package com.example.shoppingpayment.product.service;
 
 import com.example.shoppingpayment.product.domain.Product;
 import com.example.shoppingpayment.product.dto.ProductCreateRequestDTO;
+import com.example.shoppingpayment.product.dto.ProductResponse;
 import com.example.shoppingpayment.product.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor // final 필드에 대한 생성자를 자동으로 생성
@@ -57,5 +61,28 @@ public class ProductService {
             product.setProductCategory(updateDTO.getProductCategory());
         }
         productRepository.save(product);
+    }
+
+    // 상품 전체 목록 조회
+    @Transactional
+    public List<ProductResponse> getAllProducts() {
+        List<Product> products = productRepository.findAll();
+        if (products.isEmpty()) {
+            throw new EntityNotFoundException();
+        }
+        return products.stream()
+                .map(this::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    public ProductResponse fromEntity(Product product) {
+        return ProductResponse.builder()
+                .productId(product.getProductId())
+                .productName(product.getProductName())
+                .productPrice(product.getProductPrice())
+                .productDescription(product.getProductDescription())
+                .productImageUrl(product.getProductImageUrl())
+                .productCategory(product.getProductCategory())
+                .build();
     }
 }
