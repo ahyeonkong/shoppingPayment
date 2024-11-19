@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor // 매개변수가 없는 기본 생성자를 자동으로 생성해주는 Lombok 어노테이션
-public class ProductCreateRequestDTO {
+public class ProductRequest {
     private String productName;
     private Long productPrice;
     private String productDescription;

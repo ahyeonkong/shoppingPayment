@@ -1,7 +1,7 @@
 package com.example.shoppingpayment.product.service;
 
 import com.example.shoppingpayment.product.domain.Product;
-import com.example.shoppingpayment.product.dto.ProductCreateRequestDTO;
+import com.example.shoppingpayment.product.dto.ProductRequest;
 import com.example.shoppingpayment.product.dto.ProductResponse;
 import com.example.shoppingpayment.product.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,7 +19,7 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     @Transactional
-    public void createProduct(ProductCreateRequestDTO request){
+    public void createProduct(ProductRequest request){
         // Product 엔티티의 필드명과 일치하게 작성
         Product product = Product.builder()
                 .productName(request.getProductName())
@@ -40,7 +40,7 @@ public class ProductService {
     }
 
     @Transactional
-    public void updateProduct(Long productId, ProductCreateRequestDTO updateDTO){
+    public void updateProduct(Long productId, ProductRequest updateDTO){
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new EntityNotFoundException("Id가 "+ productId + "인 상품을 찾을 수 없습니다."));
 

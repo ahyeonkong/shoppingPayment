@@ -2,7 +2,7 @@ package com.example.shoppingpayment.product.controller;
 
 import com.example.shoppingpayment.common.dto.ApiResponse;
 import com.example.shoppingpayment.common.dto.GenericApiResponse;
-import com.example.shoppingpayment.product.dto.ProductCreateRequestDTO;
+import com.example.shoppingpayment.product.dto.ProductRequest;
 import com.example.shoppingpayment.product.dto.ProductResponse;
 import com.example.shoppingpayment.product.service.ProductService;
 import jakarta.persistence.EntityNotFoundException;
@@ -20,7 +20,7 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse> createProduct(@RequestBody ProductCreateRequestDTO request) {
+    public ResponseEntity<ApiResponse> createProduct(@RequestBody ProductRequest request) {
         productService.createProduct(request);
         ApiResponse response = new ApiResponse(true, 201, "상품이 성공적으로 등록되었습니다.");
         return ResponseEntity.status(201).body(response);
@@ -38,7 +38,7 @@ public class ProductController {
     }
 
     @PatchMapping("/{productId}")
-    public ResponseEntity<ApiResponse> updateProduct(@PathVariable Long productId, @RequestBody ProductCreateRequestDTO updateDTO){
+    public ResponseEntity<ApiResponse> updateProduct(@PathVariable Long productId, @RequestBody ProductRequest updateDTO){
         try {
             productService.updateProduct(productId, updateDTO);
             return ResponseEntity.ok(new ApiResponse(true, 200, "상품이 성공적으로 수정되었습니다."));
