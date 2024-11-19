@@ -14,6 +14,7 @@ public class ProductService {
     // ProductRepository를 의존성 주입받기 위한 final 필드 선언
     private final ProductRepository productRepository;
 
+    @Transactional
     public void createProduct(ProductCreateRequestDTO request){
         // Product 엔티티의 필드명과 일치하게 작성
         Product product = Product.builder()
@@ -32,5 +33,29 @@ public class ProductService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new EntityNotFoundException("Id가 "+ productId + "인 상품을 찾을 수 없습니다."));
         productRepository.delete(product);
+    }
+
+    @Transactional
+    public void updateProduct(Long productId, ProductCreateRequestDTO updateDTO){
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new EntityNotFoundException("Id가 "+ productId + "인 상품을 찾을 수 없습니다."));
+
+        // PATCH를 사용했기 떄문에 널이 아닌 필드만 업데이트 하는 로직이 필요함
+        if (updateDTO.getProductName() != null) {
+            product.setProductName(updateDTO.getProductName());
+        }
+        if (updateDTO.getProductPrice() != null) {
+            product.setProductPrice(updateDTO.getProductPrice());
+        }
+        if (updateDTO.getProductDescription() != null) {
+            product.setProductDescription(updateDTO.getProductDescription());
+        }
+        if (updateDTO.getProductImageUrl() != null) {
+            product.setProductImageUrl(updateDTO.getProductImageUrl());
+        }
+        if (updateDTO.getProductCategory() != null) {
+            product.setProductCategory(updateDTO.getProductCategory());
+        }
+        productRepository.save(product);
     }
 }

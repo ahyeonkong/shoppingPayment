@@ -33,4 +33,16 @@ public class ProductController {
         }
     }
 
+    @PatchMapping("/{productId}")
+    public ResponseEntity<ApiResponse> updateProduct(@PathVariable Long productId, @RequestBody ProductCreateRequestDTO updateDTO){
+        try {
+            productService.updateProduct(productId, updateDTO);
+            return ResponseEntity.ok(new ApiResponse(true, 200, "상품이 성공적으로 수정되었습니다."));
+        }catch (EntityNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse(false, 404, e.getMessage()));
+        }
+
+    }
+
 }
