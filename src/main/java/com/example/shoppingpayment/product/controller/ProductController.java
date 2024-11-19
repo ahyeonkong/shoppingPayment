@@ -1,13 +1,17 @@
 package com.example.shoppingpayment.product.controller;
 
 import com.example.shoppingpayment.common.dto.ApiResponse;
+import com.example.shoppingpayment.common.dto.GenericApiResponse;
 import com.example.shoppingpayment.product.dto.ProductCreateRequestDTO;
+import com.example.shoppingpayment.product.dto.ProductResponse;
 import com.example.shoppingpayment.product.service.ProductService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,6 +45,20 @@ public class ProductController {
         }catch (EntityNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ApiResponse(false, 404, e.getMessage()));
+        }
+
+    }
+
+    // 전체 목록 조회는 GenericApiResponse로 묶고, List로 묶어서 반환
+    @GetMapping
+    public ResponseEntity<GenericApiResponse<List<ProductResponse>>> getAllProducts(){
+        try{
+            List<ProductResponse> products = productService.getAllProducts();
+            GenericApiResponse<List<ProductResponse>> response = new GenericApiResponse<>(true, 200, "상품 목록을 성공적으로 조회했습니다.", products);
+            return ResponseEntity.ok(response);
+        }catch (EntityNotFoundException e) {
+            GenericApiResponse<List<ProductResponse>> response = new GenericApiResponse<>(false, 404, "상품 목록이 없습니다.", null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
 
     }
