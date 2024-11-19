@@ -74,6 +74,13 @@ public class ProductService {
                 .map(this::fromEntity)
                 .collect(Collectors.toList());
     }
+    // 상품 상세 목록 조회
+    @Transactional
+    public ProductResponse getOneProduct(Long productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new EntityNotFoundException("ID가 " + productId + "인 상품을 찾을 수 없습니다."));
+        return fromEntity(product);
+    }
 
     public ProductResponse fromEntity(Product product) {
         return ProductResponse.builder()
