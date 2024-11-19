@@ -3,6 +3,8 @@ package com.example.shoppingpayment.product.service;
 import com.example.shoppingpayment.product.domain.Product;
 import com.example.shoppingpayment.product.dto.ProductCreateRequestDTO;
 import com.example.shoppingpayment.product.repository.ProductRepository;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,5 +25,12 @@ public class ProductService {
                 .build();
 
         productRepository.save(product);
+    }
+
+    @Transactional
+    public void deleteProduct(Long productId){
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new EntityNotFoundException("Id가 "+ productId + "인 상품을 찾을 수 없습니다."));
+        productRepository.delete(product);
     }
 }
